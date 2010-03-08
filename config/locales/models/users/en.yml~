@@ -1,0 +1,12 @@
+en: 
+  activerecord: 
+    models: 
+      user: "user"
+    attributes: 
+      user: 
+        email: "email"
+        first_name: "first name"
+        last_name: "last name"
+        full_name: "name"
+        password: "password"
+        password_confirmation: "password confirmation"

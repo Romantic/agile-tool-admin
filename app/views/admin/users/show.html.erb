@@ -1,0 +1,18 @@
+<% title t(".title") %>
+
+<div class="span-26">
+  <div>
+    <strong><%= User.human_attribute_name(:full_name)%>:</strong>
+    <%=h @user.full_name %>
+  </div>
+  <div>
+    <strong><%= User.human_attribute_name(:email)%>:</strong>
+    <%=h @user.email %>
+  </div>
+  
+  <div class="toolbar">
+    <%= link_button t("actions.edit"), "pencil", edit_admin_user_path(@user), :title => t("users.edit_details") %>
+    <%= link_button t("actions.delete"), "trash", admin_user_path(@user), :title => t("users.delete"), :confirm => t("messages.are_you_shure"), :method => :delete %>
+    <%= link_button t("actions.view_all"), "pencil", admin_users_path, :title => t("users.view_all") %>
+  </div>
+</div>

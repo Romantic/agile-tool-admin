@@ -1,0 +1,20 @@
+ru: 
+  authlogic:
+    error_messages:
+      login_blank: "can not be blank"
+      login_not_found: "is not valid"
+      login_invalid: "should use only letters, numbers, spaces, and .-_@ please."
+      consecutive_failed_logins_limit_exceeded: "Consecutive failed logins limit exceeded, account is disabled."
+      email_invalid: "введён в некорректном формате"
+      password_blank: "can not be blank"
+      password_invalid: "не правильный"
+      not_active: "Your account is not active."
+      not_confirmed: "Your account is not confirmed."
+      not_approved: "Your account is not approved."
+      no_authentication_details: "Введите детали, необходимые для аутентификации."
+    attributes:
+      user_session:
+        login: "логин"
+        email: "email"
+        password: "пароль"
+        remember_me: "запомнить"

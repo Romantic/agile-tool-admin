@@ -1,0 +1,16 @@
+ru: 
+  activerecord: 
+    models: 
+      project: "проект"
+    attributes: 
+      project: 
+        name: "имя"
+        description: "описание"
+        start_date: "дата начала"
+        end_date: "дата окончания"
+    errors:
+      models:
+        project:
+          attributes:
+            start_date:
+              should_not_exceed_end_date: "не может превышать дату окончания."

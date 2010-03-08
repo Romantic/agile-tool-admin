@@ -1,0 +1,51 @@
+<% javascript "i18n/grid.locale-#{I18n.locale}" %>
+<% javascript "jquery.jqGrid.min" %>
+
+<% title t(".title") %><% form_tag :url => {:action => "assign_role"} do %>	<%= select_tag(:user_id, options_from_collection_for_select(@users, "id", "full_name")) %>	<%= select_tag(:role, options_for_select(@roles)) %>	<%= submit_tag(t("actions.assign")) %><% end %>
+<br />
+
+<table id="roles_grid"></table>
+
+<script type="text/javascript">
+	//<![CDATA[
+	function destroyRoleFormatter(value) {
+		return '<a href="' + value + '" title="<%= t("view_details", :scope => @controller.controller_path.split("/")) %>"><span class="ui-icon ui-icon-comment"></span>';
+	}
+
+	$(function() {
+    var maxHeight = 400;
+		$('#roles_grid').jqGrid({
+			url: '<%= admin_project_roles_data_path %>',
+			datatype: 'xml',
+			rowNum: 100,
+			multiselect: false,
+			height: '230px',
+			altRows: true,
+			colNames: [
+        '#',
+        '<%= t("activerecord.attributes.user.full_name") %>',
+        '<%= t("activerecord.attributes.role.name") %>',
+        ''
+      ],
+			colModel:[
+        {name: 'index', align: 'center', sortable: false, width: 30},
+        {name: 'user_name', sortable: false, width: 425},
+        {name: 'role_name', sortable: false, width: 425},
+        {name: 'destroy_link', sortable: false, width: 20},
+			],
+
+			gridComplete : function() {
+				var gridHeight = $('#roles_grid').height();
+				if (gridHeight > maxHeight) {
+					gridHeight = maxHeight;
+				}
+				if ($.browser.msie) {
+					gridHeight += 1;
+				}
+				$('.ui-jqgrid-bdiv').height(gridHeight);
+			}
+		});
+	});
+	//]]>
+</script>
+

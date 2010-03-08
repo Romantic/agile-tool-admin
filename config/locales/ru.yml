@@ -1,0 +1,10 @@
+ru:
+  application:
+    title: "agile tool"
+    admin_title: "agile tool [консоль управления]"
+    permission_denied: "Ваша учётная запись не обладает необходимыми правами для доступа к данному ресурсу."
+    login_required: "Вам необходимо авторизоваться для просмотра данной страницы."
+  date: 
+    formats: 
+      short: "%d/%m/%Y"
+      date_picker: "%d/%m/%Y"

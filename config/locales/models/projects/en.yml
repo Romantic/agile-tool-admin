@@ -1,0 +1,16 @@
+en: 
+  activerecord: 
+    models: 
+      project: "project"
+    attributes: 
+      project: 
+        name: "name"
+        description: "description"
+        start_date: "start date"
+        end_date: "end date"
+    errors:
+      models:
+        project:
+          attributes:
+            start_date:
+              should_not_exceed_end_date: "should not exceed end date."

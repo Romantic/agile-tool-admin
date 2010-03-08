@@ -1,0 +1,56 @@
+<table id="<%= grid_name %>"></table>
+<div id="<%= pager_name %>"></div>
+
+<% @config = grid_config %>
+
+<script type="text/javascript">
+	//<![CDATA[
+	function editDetailsFormatter(value) {
+		return '<a href="' + value + '" title="<%= t("edit_details", :scope => @controller.controller_path.split("/")) %>"><span class="ui-icon ui-icon-pencil"></span>';
+	}
+
+	function viewDetailsFormatter(value) {
+		return '<a href="' + value + '" title="<%= t("view_details", :scope => @controller.controller_path.split("/")) %>"><span class="ui-icon ui-icon-comment"></span>';
+	}
+
+	$(function() {
+		$('#<%= grid_name %>').jqGrid({
+			url: '<%= url_for({:action => "grid_data"}) %>',
+			datatype: '<%= @config["datatype"] %>',
+			rowNum: <%= @config["rowNum"] %>,
+			rowList: [<%= @config["rowList"].join(",") %>],
+			multiselect: <%= @config["multiselect"] %>,
+			height: '<%= @config["height"] %>px',
+			altRows: <%= @config["altRows"] %>,
+
+			<% if @config["sortname"] -%>
+				sortname: '<%= @config["sortname"] %>',
+			<% end -%>
+			<% if @config["sortorder"] -%>
+				sortorder: '<%= @config["sortorder"] %>',
+			<% end -%>
+
+			colNames: [<%= grid_columns_names %>],
+			colModel:[
+				<%= grid_columns %>
+			],
+
+			<% if @config["max_height"] -%>
+				gridComplete : function() {
+					var gridHeight = $('#<%= grid_name %>').height();
+					if (gridHeight > <%= @config["max_height"] %>) {
+						gridHeight = <%= @config["max_height"] %>;
+					}
+					if ($.browser.msie) {
+						gridHeight += 1;
+					}
+					$('.ui-jqgrid-bdiv').height(gridHeight);
+				},
+			<% end -%>
+
+			pager: '#<%= pager_name %>'
+		});
+	});
+	//]]>
+</script>
+

@@ -1,0 +1,33 @@
+datatype: xml
+mtype: GET
+rowNum: 10
+rowList: [5, 10, 20, 50, 100]
+altRows: true
+multiselect: true
+width: 900
+height: 230
+max_height: 400
+show_index_column: true
+index_column_title: "#"
+index_column :
+  name: index
+  index: index
+  width: 30
+  sortable: false
+  align: center
+show_view_column: true
+view_column_title: ""
+view_column:
+  name: view_details
+  index: view_details
+  width: 20
+  sortable: false
+  formatter: viewDetailsFormatter
+show_edit_column: true
+edit_column_title: ""
+edit_column:
+  name: edit_details
+  index: edit_details
+  width: 20
+  sortable: false
+  formatter: editDetailsFormatter

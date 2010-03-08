@@ -1,0 +1,48 @@
+﻿<% stylesheet_merged "wysiwyg" %>
+<% javascript_merged "wysiwyg" %>
+
+<% form_for [:admin, @project] do |f| %>
+  <%= f.error_messages %>
+  <div class="ui-edit-form">
+    <div class="ui-field">
+      <%= f.label :name, Project.human_attribute_name(:name) %>
+      <%= f.text_field :name %>
+      <div class="clear"></div>
+    </div>
+    <div class="ui-field">
+      <%= f.label :description, Project.human_attribute_name(:description) %>
+      <%= f.text_area :description %>
+      <div class="clear"></div>
+    </div>
+    <div class="ui-field">
+      <%= f.label :start_date, Project.human_attribute_name(:start_date) %>
+      <%= f.date_picker :start_date_string %>
+      <div class="clear"></div>
+    </div>
+    <div class="ui-field">
+      <%= f.label :end_date, Project.human_attribute_name(:end_date) %>
+      <%= f.date_picker :end_date_string %>
+      <div class="clear"></div>
+    </div>
+    <div class="toolbar">
+      <%= link_button t("actions.save"), "disk", js_void, :title => t(".save"), :onclick => submit_form %>
+      <%= link_button t("actions.cancel"), "cancel", admin_projects_path, :title => t(".cancel") %>
+      <%= link_button t("actions.team"), "person", admin_project_users_path(:project_id => @project.id), :title => t(".team") %>
+    </div>
+    <!-- Submits form on Enter key -->
+    <%= f.submit "", {:class => "hide"} %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+    //<![CDATA[
+
+    $(function(){
+      $('#project_description').htmlarea({
+        css: "/stylesheets/jHtmlArea.Editor.css"
+      });
+    });
+
+    //]]>
+</script>
+

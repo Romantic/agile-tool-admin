@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    models:
+      user: "user"
+    attributes:
+      user:
+        email: "email"
+        first_name: "имя"
+        last_name: "фамилия"
+        full_name: "имя"
+        password: "пароль"
+        password_confirmation: "подтверждение пароля"
+        hours: "часы в день"
+

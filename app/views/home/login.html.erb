@@ -1,0 +1,25 @@
+<% title "Login" %>
+
+<% form_for @user_session, :url => { :action => "create_user_session" } do |f| %>
+  <%= f.error_messages %>
+  <div class="ui-edit-form">
+	<div class="ui-field">
+	  <%= f.label :email, UserSession.human_attribute_name(:email) %>
+	  <%= f.text_field :email %>
+	  <div class="clear"></div>
+	</div>
+	<div class="ui-field">
+	  <%= f.label :password, UserSession.human_attribute_name(:password) %>
+	  <%= f.password_field :password %>
+	  <div class="clear"></div>
+	</div>
+	<div class="ui-field">
+	  <%= f.check_box :remember_me %>
+	  <%= f.label :remember_me, {}, {:class => "checkbox-label"} %>
+	  <div class="clear"></div>
+	</div>
+	<div class="toolbar">
+	  <%= link_button t("actions.login"), "key", js_void, :title => t("actions.login"), :onclick => submit_form %>
+	</div>
+  </div>
+<% end %>

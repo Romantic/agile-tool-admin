@@ -1,0 +1,25 @@
+# == Schema Information
+# Schema version: 20091206172603
+#
+# Table name: projects
+#
+#  id          :integer         not null, primary key
+#  name        :string(255)
+#  description :string(1000)
+#  start_date  :date
+#  end_date    :date
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
+one:
+  name: MyString
+  description: MyString
+  start_date: 2009-11-04 00:24:36
+  end_date: 2009-11-04 00:24:36
+
+two:
+  name: MyString
+  description: MyString
+  start_date: 2009-11-04 00:24:36
+  end_date: 2009-11-04 00:24:36

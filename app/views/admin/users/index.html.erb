@@ -1,0 +1,38 @@
+<% title "Users" %>
+
+<%= jqgrid("", "users", url_for(:action => "grid_data"),
+	[
+		{ :field => "id", :label => "ID", :width => 50, :resizable => false, :align => "center" },
+		{ :field => "first_name", :label => "first name", :width => 250 },
+		{ :field => "last_name", :label => "last name", :width => 250 },
+		{ :field => "email", :label => "email", :width => 290 },
+		{ :field => "action_view", :label => "", :width => 20 },
+		{ :field => "action_edit", :label => "", :width => 20 }
+	],
+  { :multi_selection => false, :delete => true, :edit_url => url_for(:action => "grid_edit"),
+    :grid_loaded => "gridLoadHandler"}
+) %>
+
+<script type="text/javascript">
+
+  function gridLoadHandler() {
+    fixGridHeight('#users', 400)
+    addGridRowButtons('#users',
+      { path: '<%= admin_user_path(:id => ":id") %>',
+        title: '<%= t("view_details", :scope => @controller.controller_path.split("/")) %>',
+        icon: 'ui-icon-comment' },
+      { path: '<%= edit_admin_user_path(:id => ":id") %>',
+        title: '<%= t("edit_details", :scope => @controller.controller_path.split("/")) %>',
+        icon: 'ui-icon-pencil'});
+
+    addGridButton('#users', '#pg_users_pager', {
+        buttonicon: 'ui-icon-plus',
+        caption: '',
+        title: '<%= t(".create_new") %>',
+        onClickButton: function(){ window.location = '<%= new_admin_user_path %>'},
+        position: 'first'
+    });
+  }
+
+</script>
+

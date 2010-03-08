@@ -1,0 +1,10 @@
+en:
+  application:
+    title: "agile tool"
+    admin_title: "agile tool [administrative suite]"
+    permission_denied: "Permission denied. You cannot access the requested page."
+    login_required: "Login is required to access the requested page."
+  date: 
+    formats: 
+      short: "%d/%m/%Y"
+      date_picker: "%d/%m/%Y"

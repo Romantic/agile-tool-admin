@@ -1,0 +1,21 @@
+<% title "Roles" %>
+
+<div id="roles">
+<% for role in @roles %>
+  <div class="role">
+	<%=h role.name %> <br />
+	<%=h role.users %>
+  </div>
+<% end %>
+</div>
+
+
+<h3>Add member:</h3>
+
+<% form_tag :url => admin_project_roles_path(@project) do %>
+  <p>
+	<%= label_tag :user %><br />
+	<%= select_tag :name, options_for_select(@users.map {|u| [u.full_name, u.id]}) %>
+  </p>
+  <p><%= submit_tag "Add" %></p>
+<% end %>

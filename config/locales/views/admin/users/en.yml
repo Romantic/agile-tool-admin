@@ -1,0 +1,20 @@
+en:
+  admin:
+      users:
+        delete: "Delete user."
+        view_all: "View all users."
+        edit_details: "Edit user details."
+        view_details: "View user details."
+        index:
+          create_new: "Create new user."
+          delete_selected: "Delete selected user(s)."
+        form:
+          save: "Save user details."
+          cancel: "Discard your changes."
+        edit:
+          title: "edit user"
+        show:
+          title: "user details"
+        new:
+          title: "new user"
+

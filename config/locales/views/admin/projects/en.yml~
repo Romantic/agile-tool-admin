@@ -1,0 +1,22 @@
+en:
+  admin:
+    projects:
+      delete: "Delete project."
+      view_all: "View all projects."
+      index:
+        create_new: "Create new project."
+        delete_selected: "Delete selected project(s)."
+        edit_details: "Edit project details."
+        view_details: "View project details."
+      form:
+        details: "details"
+        save: "Save project details."
+        cancel: "Discard your changes."
+        team: "Manage project team."
+      edit:
+        title: "edit project"
+      show:
+        title: "project details"
+      new:
+        title: "new project"
+

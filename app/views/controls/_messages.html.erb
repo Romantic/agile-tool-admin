@@ -1,0 +1,15 @@
+<div id="ui-messages">
+<% flash.each do |name, message| %>
+	<div class="ui-widget">
+		<% if message[:success] -%>
+		<div class="ui-state-highlight ui-corner-all ui-message">
+			<p><span class="ui-icon ui-icon-info"></span><%= message[:message] %></p>
+		</div>
+		<% else -%>
+		<div class="ui-state-error ui-corner-all ui-message"> 
+			<p><span class="ui-icon ui-icon-alert"></span><%= message[:message] %></p>
+		</div>
+		<% end -%>
+	</div>
+<% end %>
+</div>

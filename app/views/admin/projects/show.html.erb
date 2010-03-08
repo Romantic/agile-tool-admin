@@ -1,0 +1,31 @@
+<% title t(".title") %>
+
+<div class="span-26">
+  <div>
+    <strong><%= Project.human_attribute_name(:name)%>:</strong>
+    <%=h @project.name %>
+  </div>
+  <div>
+    <strong><%= Project.human_attribute_name(:description)%>:</strong><br/><br/>
+    <%= @project.description %>
+  </div>
+  <% if @project.start_date -%>
+  <div>
+    <strong><%= Project.human_attribute_name(:start_date)%>:</strong>
+    <%=l @project.start_date, :format => :short %>
+  </div>
+  <% end -%>
+  <% if @project.end_date -%>
+  <div>
+    <strong><%= Project.human_attribute_name(:end_date)%>:</strong>
+    <%=l @project.end_date, :format => :short %>
+  </div>
+  <% end -%>
+
+  <div class="toolbar">
+    <%= link_button t("actions.edit"), "pencil", edit_admin_project_path(@project), :title => t("projects.edit_details") %>
+    <%= link_button t("actions.delete"), "trash", admin_project_path(@project), :title => t("projects.delete"), :confirm => t("messages.are_you_shure"), :method => :delete %>
+    <%= link_button t("actions.team"), "person", admin_project_users_path(:project_id => @project.id), :title => t(".team") %>
+  </div>
+</div>
+

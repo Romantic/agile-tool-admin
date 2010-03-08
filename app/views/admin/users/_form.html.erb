@@ -1,0 +1,41 @@
+﻿<% form_for [:admin, @user] do |f| %>
+  <%= f.error_messages %>
+  <div class="ui-edit-form">
+      <div class="ui-field">
+        <%= f.label :email, User.human_attribute_name(:email) %>
+        <%= f.text_field :email %>
+        <div class="clear"></div>
+      </div>
+      <div class="ui-field">
+        <%= f.label :password, User.human_attribute_name(:password) %>
+        <%= f.password_field :password %>
+        <div class="clear"></div>
+      </div>
+      <div class="ui-field">
+        <%= f.label :password_confirmation, User.human_attribute_name(:password_confirmation) %>
+        <%= f.password_field :password_confirmation %>
+        <div class="clear"></div>
+      </div>
+      <div class="ui-field">
+        <%= f.label :first_name, User.human_attribute_name(:first_name) %>
+        <%= f.text_field :first_name %>
+        <div class="clear"></div>
+      </div>
+      <div class="ui-field">
+        <%= f.label :last_name, User.human_attribute_name(:last_name) %>
+        <%= f.text_field :last_name %>
+        <div class="clear"></div>
+      </div>
+      <div class="ui-field">
+        <%= f.label :hours, User.human_attribute_name(:hours) %>
+        <%= f.text_field :hours %>
+        <div class="clear"></div>
+      </div>
+      <div class="toolbar">
+        <%= link_button t("actions.save"), "disk", js_void, :title => t(".save"), :onclick => submit_form %>
+      </div>
+      <!-- Submits form on Enter key -->
+      <%= f.submit "", {:class => "hide"} %>
+  </div>
+<% end %>
+

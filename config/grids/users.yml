@@ -1,0 +1,12 @@
+sortname: first_name
+sortorder: asc
+columnNames:
+  - activerecord.attributes.user.full_name
+  - activerecord.attributes.user.email
+columns:
+  - name: full_name
+    index: first_name
+    width: 50
+  - name: email
+    index: email
+    width: 50

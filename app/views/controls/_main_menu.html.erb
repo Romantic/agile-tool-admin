@@ -1,0 +1,16 @@
+<ul id="main-menu" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+	<% items.each do |menu_item| -%>
+		<li class="ui-state-default ui-corner-top <%= "ui-tabs-selected ui-state-active" if menu_item[2] && menu_item[2].call %>"><%= link_to menu_item[0], menu_item[1] %></li>
+	<% end -%>
+</ul>
+
+<script type="text/javascript">
+	//<![CDATA[
+		$(function() {
+			$('#main-menu li').hover(
+				function () { $(this).addClass('ui-state-hover'); },
+				function () { $(this).removeClass('ui-state-hover'); }
+			);
+		});
+	//]]>
+</script>
