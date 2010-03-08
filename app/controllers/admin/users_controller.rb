@@ -25,9 +25,22 @@ class Admin::UsersController < Admin::AdminController
 
     respond_to do |format|
       format.html
-      format.json { render :json => users.to_jqgrid_json([:id,:first_name,:last_name,:email],
+      format.json { render :json => users.to_jqgrid_json([:first_name,:last_name,:email],
                                                          params[:page], params[:rows], users.total_entries) }
     end
+  end
+  
+  def grid_edit
+    if params[:oper] == "del"
+      User.find(params[:id].split(",")).each { |user| user.destroy }
+    else
+      user_params = { :first_name => params[:first_name], 
+                      :last_name => params[:last_name], 
+                      :email => params[:email]}
+      
+      User.find(params[:id]).update_attributes(user_params)
+    end
+    render :nothing => true
   end
 
   def show
@@ -81,7 +94,6 @@ class Admin::UsersController < Admin::AdminController
     success t("messages.user_deleted")
     redirect_to admin_users_url
   end
-
 
   def destroy_multiple
     User.find(params[:id]).each do |user|

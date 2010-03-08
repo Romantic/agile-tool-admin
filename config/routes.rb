@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :projects, :collection => {:grid_data => :get, :destroy_multiple => :post} do |project|
       project.resources :users, :controller => "project_to_users", :except => [:new, :edit]
     end
-    admin.resources :users, :collection => {:grid_data => :get, :destroy_multiple => :post}
+    admin.resources :users, :collection => { :grid_data => :get, :grid_edit => :post }
   end
 
   map.home ":locale", :controller => "home", :action => "dashboard"

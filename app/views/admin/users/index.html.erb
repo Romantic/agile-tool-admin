@@ -2,18 +2,26 @@
 
 <%= jqgrid("", "users", url_for(:action => "grid_data"),
 	[
-		{ :field => "id", :label => "ID", :width => 50, :resizable => false, :align => "center" },
 		{ :field => "first_name", :label => "first name", :width => 250 },
 		{ :field => "last_name", :label => "last name", :width => 250 },
-		{ :field => "email", :label => "email", :width => 290 },
+		{ :field => "email", :label => "email", :width => 300 },
 		{ :field => "action_view", :label => "", :width => 20 },
 		{ :field => "action_edit", :label => "", :width => 20 }
 	],
-  { :multi_selection => false, :delete => true, :edit_url => url_for(:action => "grid_edit"),
+  { :multi_selection => true,
+    :rownumbers => true,
+    :delete => true, 
+    :edit => true,
+    :inline_edit => true,
+    :edit_url => url_for(:action => "grid_edit"),
     :grid_loaded => "gridLoadHandler"}
 ) %>
 
 <script type="text/javascript">
+
+  $(function() {
+        $("#users").jqGrid('setGridWidth', 900); 
+  });
 
   function gridLoadHandler() {
     fixGridHeight('#users', 400)

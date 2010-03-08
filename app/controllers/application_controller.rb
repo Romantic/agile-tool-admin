@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   helper_method :available_locales, :current_user_session, :current_user, :error, :success, :add_root_crumb, :add_crumb
 
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
+  protect_from_forgery :except => [:grid_edit]
 
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
