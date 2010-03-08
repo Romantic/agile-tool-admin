@@ -1,8 +1,0 @@
-<% title "Projects" %>
-
-<%= render :partial => 'controls/grid' %>
-<p class="toolbar">
-	<%= link_button t("actions.new"), "plus", new_admin_project_path, :title => t(".create_new") %>
-	<%= link_button t("actions.delete"), "trash", js_void, :title => t(".delete_selected"), :onclick => delete_selected_items %>
-</p>
-

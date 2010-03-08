@@ -1,45 +1,0 @@
-<% javascript "i18n/grid.locale-#{I18n.locale}" %>
-<% javascript "jquery.jqGrid.min" %>
-
-<% title t(".title") %>
-<% if @users.size > 0 %>  <% form_tag admin_project_users_path do %>	  <%= select_tag(:user_id, options_from_collection_for_select(@users, "id", "full_name")) %>	  <%= submit_tag(t("actions.assign")) %>  <% end %>
-  <br />
-<% end %>
-
-<table id="list"></table>
-
-<script type="text/javascript">
-  $(function(){
-    $("#list").jqGrid({
-        datatype: "local",
-        colNames:['name','hours', 'developer', 'scrum-master', 'spectator'],
-        colModel :[
-          {name:'name',index:'name', width:100},
-          {name:'hours',index:'hours', width:80, align:"right",sorttype:"float"},
-          {name:'developer',index:'developer', width:80, align:"center", editable: true, edittype:"checkbox",editoptions: {value:"true:false"}},
-          {name:'scrum_master',index:'scrum_master', width:80, align:"center", editable: true, edittype:"checkbox",editoptions: {value:"true:false"}},
-          {name:'spectator',index:'spectator', width:80, align:"center", editable: true, edittype:"checkbox",editoptions: {value:"true:false"}}
-        ],
-        height: '200px',
-        onSelectRow: function(id) {
-          debugger;
-        },
-        editurl: "<%= admin_project_users_path %>"
-    });
-
-    var lastId = null;
-
-    var mydata = [
-      {name:"John Black", hours:"8", developer:"true", scrum_master:"false", spectator:"false"},
-      {name:"Will Smith", hours:"8", developer:"true", scrum_master:"false", spectator:"false"},
-      {name:"Steve Jobs", hours:"4", developer:"false", scrum_master:"true", spectator:"false"},
-      {name:"Bill Gates", hours:"4", developer:"false", scrum_master:"false", spectator:"true"},
-    ];
-
-    for (var i=0;i<=mydata.length;i++) {
-      $("#list").jqGrid('addRowData',i+1,mydata[i]);
-      $('#list').jqGrid('editRow', i+1, true);
-    }
-  });
-</script>
-
