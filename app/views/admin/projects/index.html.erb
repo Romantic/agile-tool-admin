@@ -1,8 +1,10 @@
 <% title "Projects" %>
 
-<%= render :partial => 'controls/grid' %>
-<p class="toolbar">
-	<%= link_button t("actions.new"), "plus", new_admin_project_path, :title => t(".create_new") %>
-	<%= link_button t("actions.delete"), "trash", js_void, :title => t(".delete_selected"), :onclick => delete_selected_items %>
-</p>
+<%= jquery_custom_grid(
+	[
+		{ :field => "name", :label => "name", :width => 300 },
+		{ :field => "start_date", :label => "start name", :width => 250 },
+		{ :field => "end_date", :label => "end name", :width => 250 }
+	]
+) %>
 

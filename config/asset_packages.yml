@@ -13,6 +13,27 @@ javascripts:
   - jqgrid/jquery.jqGrid.min
   - jqgrid/jquery.tablednd.js
   - jqgrid/jquery.contextmenu.js
+- grid_debug:
+  - jqgrid/jquery.layout.js
+  - jqgrid/i18n/grid.locale-#{locale}.js
+  - jqgrid/src/grid.base.js
+  - jqgrid/src/jquery.fmatter.js
+  - jqgrid/src/grid.custom.js
+  - jqgrid/src/grid.common.js
+  - jqgrid/src/grid.formedit.js
+  - jqgrid/src/jquery.searchFilter.js
+  - jqgrid/src/grid.inlinedit.js
+  - jqgrid/src/grid.celledit.js
+  - jqgrid/src/grid.subgrid.js
+  - jqgrid/src/grid.treegrid.js
+  - jqgrid/src/grid.import.js
+  - jqgrid/src/JsonXml.js
+  - jqgrid/src/grid.setcolumns.js
+  - jqgrid/src/grid.postext.js
+  - jqgrid/src/grid.tbltogrid.js
+  - jqgrid/src/grid.jqueryui.js
+  - jqgrid/jquery.tablednd.js
+  - jqgrid/jquery.contextmenu.js
 stylesheets:
 - screen:
   - screen

@@ -8,7 +8,7 @@
 	<%= stylesheet_link_merged :print, :media => "print" %>
 	<!--[if lt IE 8]><%= stylesheet_link_merged :ie, :media => "screen, projection" %><![endif]-->
 	<%= javascript_include_merged :base %>
-	<%= javascript_include_merged :grid, {:params => {"locale" => I18n.locale}} %>
+	<%= javascript_include_merged :grid_debug, {:params => {"locale" => I18n.locale}} %>
 	<%= yield(:head) %>
 </head>
 <body>

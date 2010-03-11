@@ -1,135 +1,87 @@
 # Provides helper methods for jquery ajax grid integration.
 module JqueryGridHelper
 
-	# TODO: Move to config
-	GRID_CONFIG_PATH = Rails.root.join('config', 'grids')
-	
-	# Generates default id for grid (using controller name).
-	def grid_name
-		return "#{controller_name}_grid"
-	end
-	
-	# Generates default id for pager (using controller name).
-	def pager_name
-		return "#{controller_name}_pager"
-	end
-	
-	# Generates delete selected items script.
-	def delete_selected_items
-		"javascript:deleteSelectedItems('##{grid_name}', '#{url_for :action => "destroy_multiple"}', '#{t "messages.are_you_shure"}', '#{t "messages.at_least_one_record"}');"
-	end
-	
-	# Gets dictionary with parsed grid configurations. 
-	# In this key - name of grid, value - configuration dictionary for grid.
-	def grid_configs_cache
-		@@grid_configs_cache = {} unless defined? @@grid_configs_cache
-		@@grid_configs_cache
-	end
+  # Renders helper javascript method for grid with new, edit, view and delete buttons.
+  def jquery_custom_grid(fields, options = {}, grid_name = controller_name)
 
-	# Loads grid configuration from yml. It used default values (default.yml) 
-	# and merges all configs with default config.
-	def load_grid_config(name)
-		config = grid_config(:default) if name != :default
-		config ||= {}
-		path = "#{GRID_CONFIG_PATH}/#{name}.yml"
-		if File.exists?(path)
-			config.merge!(YAML.load_file(path))
-		end
-		return config
-	end
+    # Default options
+    options =
+      {
+        :edit_url            => url_for(:action => "grid_edit"),
+        :grid_loaded         => "gridLoadHandler",
+        :error_handler       => "gridErrorHandler",
+        :multi_selection     => true,
+        :rownumbers          => true,
+        :delete              => true,
+        :edit                => true,
+        :add                 => true
+      }.merge(options)
 
-	# Prepares grid columns after configuration reading.
-	def prepare_grid_columns(config)
-		recalculate_grid_columns(config) if config["columns"]
-		translate_grid_columns_names(config) if config["columnNames"]
-		append_special_grid_columns(config) if config["columns"]
-		config
-	end
+    show_edit = options.delete(:edit)
+    show_add = options.delete(:add)
+    width = options.delete(:width)
+    width = fields.inject (100) {|sum, field| sum + field[:width]} unless width
 
-	# Recalculates grid columns width to normilize grid width
-	#  (total width of all columns and special columns should be equal to value specified in config).
-	def recalculate_grid_columns(config)
-		total_width = config["width"] - 20
-		total_width -= config["index_column"]["width"] if config["show_index_column"]
-		total_width -= config["view_column"]["width"] if config["show_view_column"]
-		total_width -= config["edit_column"]["width"] if config["show_edit_column"]
-		total_initial_width = config["columns"].inject(0) {|sum, column| sum + column["width"]}
-		config["columns"].each do |column|
-			column["width"] = (column["width"] / total_initial_width.to_f * total_width).to_i
-		end
-		config
-	end
+    fields << { :field => "action_view", :label => "", :width => 20, :search => false }
+    fields << { :field => "action_edit", :label => "", :width => 20, :search => false } if show_add
 
-	# Appends special columns (index, view, edit) if it specified in configuration
-	#  (show_index_column, show_view_column, show_edit_column).
-	def append_special_grid_columns(config)
-		if config["show_index_column"]
-			config["columns"].insert(0, config["index_column"]) 
-			config["columnNames"].insert(0, config["index_column_title"])
-		end
-		if config["show_view_column"]
-			config["columns"].push(config["view_column"])
-			config["columnNames"].push(config["view_column_title"])
-		end
-		if config["show_edit_column"]
-			config["columns"].push(config["edit_column"])
-			config["columnNames"].push(config["edit_column_title"])
-		end
-		config
-	end
-	
-	def translate_grid_columns_names(config)
-		translated_names = []
-		config["columnNames"].each do |column|
-			translated_names.push(t(column))
-		end	
-		config["columnNames"] = translated_names
-		config
-	end
+    output = jqgrid("", grid_name, url_for(:action => "grid_data"), fields, options)
 
-	# Gets grid configuration for specified grid name (controller name by default).
-	def grid_config(name = controller_name)
-		if RAILS_ENV == "production"
-			config = grid_configs_cache[name]
-			if !config
-				config = load_config(name)
-				grid_configs_cache[name] = config
-			end
-		else
-			config = load_grid_config(name)
-		end
-		prepare_grid_columns(config) if config["columns"]
-		config
-	end
+    output << %Q(
+      <script type="text/javascript">
 
-	# Gets grid columns names for specified grid name (controller name by default).
-	def grid_columns_names(name = controller_name)
-		config = grid_config(name)
-		config["columnNames"].collect{|column| "'#{column}'"}.join(",")
-	end
+        $(function() {
+          $("##{grid_name}").jqGrid('setGridWidth', #{width});
+        });
 
-	# Gets grid columns descriptors for specified grid name (controller name by default).
-	def grid_columns(name = controller_name)
-		config = grid_config(name)
-		config["columns"].collect{|column| grid_column(column)}.join(",\r\n")
-	end
+        function gridLoadHandler() {
+          fixGridHeight('##{grid_name}', 400)
+          #{add_row_buttons(grid_name, show_edit)}
+          #{add_grid_buttons(grid_name, show_add)}
+        }
 
-	# Generates grid column json representation for specified descriptor.
-	def grid_column(column_info)
-		columns = []
-		column_info.each do |key, value|
-			columns.push(data_to_js(key, value))
-		end
-		columns = columns.join(",")
-		"{#{columns}}"
-	end
+      </script>
+    )
+  end
 
-	# Generates json representation for specified key-value pair.
-	def data_to_js(key, value)
-		if (value.is_a? String) && (key.to_s != "formatter")
-			"#{key}: '#{value}'"
-		else
-			"#{key}: #{value}"
-		end
-	end
+  def add_row_buttons(grid_name, show_edit)
+    buttons = [{
+      :path => url_for(:action => "show", :id => ":id"),
+      :title => t("view_details", :scope => @controller.controller_path.split("/")),
+      :icon => "ui-icon-comment",
+      :column => "action_view"
+    }]
+
+    if show_edit
+      buttons << {
+        :path => url_for(:action => "edit", :id => ":id"),
+        :title => t("edit_details", :scope => @controller.controller_path.split("/")),
+        :icon => "ui-icon-pencil",
+        :column => "action_edit"
+      }
+    end
+
+    output = "addGridRowButtons('##{grid_name}',["
+    buttons.each do |button|
+      output << "#{button.to_json},"
+    end
+    output << "]);"
+  end
+
+  def add_grid_buttons(grid_name, show_add)
+    output = ""
+    if show_add
+      output << %Q(
+        addGridButton('##{grid_name}', '#pg_#{grid_name}_pager', {
+            buttonicon: 'ui-icon-plus',
+            caption: '',
+            title: '#{t(".create_new")}',
+            onClickButton: function(){ window.location = '#{url_for :action => "new"}'},
+            position: 'first'
+        });
+      )
+    end
+    output
+  end
 end
+

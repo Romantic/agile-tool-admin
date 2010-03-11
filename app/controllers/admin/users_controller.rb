@@ -6,13 +6,6 @@ class Admin::UsersController < Admin::AdminController
   end
 
   def grid_data
-=begin
-    parse_grid_data(User.count)
-    @users = User.find(:all, :order => @order, :offset => (@page - 1) * @pageSize, :limit => @pageSize)
-    respond_to do |format|
-      format.xml { render :partial => 'grid_data.xml.builder', :layout => false }
-    end
-=end
     users = User.find(:all) do
       if params[:_search] == "true"
         first_name =~ "%#{params[:first_name]}%" if params[:first_name].present?
@@ -29,18 +22,20 @@ class Admin::UsersController < Admin::AdminController
                                                          params[:page], params[:rows], users.total_entries) }
     end
   end
-  
+
   def grid_edit
     if params[:oper] == "del"
       User.find(params[:id].split(",")).each { |user| user.destroy }
     else
-      user_params = { :first_name => params[:first_name], 
-                      :last_name => params[:last_name], 
-                      :email => params[:email]}
-      
+      user_params = {
+        :first_name => params[:first_name],
+        :last_name => params[:last_name],
+        :email => params[:email]
+      }
+
       User.find(params[:id]).update_attributes(user_params)
     end
-    render :nothing => true
+    render :json => {:success => true, :message => t("messages.users_deleted")}.to_json
   end
 
   def show

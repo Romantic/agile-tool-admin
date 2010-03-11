@@ -6,11 +6,36 @@ class Admin::ProjectsController < Admin::AdminController
   end
 
   def grid_data
-    parse_grid_data(Project.count)
-    @projects = Project.find(:all, :order => @order, :offset => (@page - 1) * @pageSize, :limit => @pageSize)
-    respond_to do |format|
-      format.xml { render :partial => 'grid_data.xml.builder', :layout => false }
+    projects = Project.find(:all) do
+      if params[:_search] == "true"
+        name =~ "%#{params[:name]}%" if params[:name].present?
+        name =~ "%#{params[:start_date]}%" if params[:start_date].present?
+        name =~ "%#{params[:end_date]}%" if params[:end_date].present?
+      end
+      paginate :page => params[:page], :per_page => params[:rows]
+      order_by "#{params[:sidx]} #{params[:sord]}"
     end
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => projects.to_jqgrid_json([:name,:start_date,:end_date],
+                                                         params[:page], params[:rows], projects.total_entries) }
+    end
+  end
+
+  def grid_edit
+    if params[:oper] == "del"
+      Project.find(params[:id].split(",")).each { |project| project.destroy }
+    else
+      project_params = {
+        :name => params[:name],
+        :start_date => params[:start_date],
+        :end_date => params[:end_date]
+      }
+
+      Project.find(params[:id]).update_attributes(project_params)
+    end
+    render :json => {:success => true, :message => t("messages.projects_deleted")}.to_json
   end
 
   def show
@@ -62,16 +87,6 @@ class Admin::ProjectsController < Admin::AdminController
     @project.destroy
     success t("messages.project_deleted")
     redirect_to admin_projects_path
-  end
-
-
-  def destroy_multiple
-    Project.find(params[:id]).each do |project|
-      project.destroy
-    end
-    respond_to do |format|
-      format.json { render :json => {:message => t("messages.projects_deleted")}}
-    end
   end
 
   def roles

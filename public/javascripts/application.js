@@ -24,7 +24,7 @@ function deleteSelectedItems(table, deleteUrl, confirmation, errorMessage) {
 }
 
 function clearMessages() {
-	$('#messages').empty();
+	$('#ui-messages').empty();
 }
 
 function showSuccess(message) {
@@ -35,7 +35,7 @@ function showSuccess(message) {
 				message
 			])
 		])
-	]).appendTo('#messages');
+	]).appendTo('#ui-messages');
 }
 
 function showError(message) {
@@ -46,7 +46,7 @@ function showError(message) {
 				message
 			])
 		])
-	]).appendTo('#messages');
+	]).appendTo('#ui-messages');
 }
 
 function addGridButton(grid, placeHolder, options) {
@@ -56,15 +56,18 @@ function addGridButton(grid, placeHolder, options) {
     }
 }
 
-function addGridRowButtons(grid, viewButton, editButton) {
+function addGridRowButtons(grid, buttons) {
     var ids = $(grid).jqGrid('getDataIDs');
 
     for (var i=0;i < ids.length;i++) {
         var cl = ids[i];
-        detailsLink = '<a title="' + viewButton.title + '" href="' + viewButton.path.replace(/:id/, cl) + '"><span class="ui-icon ' + viewButton.icon + '"></span></a>';
-        editLink = '<a title="' + editButton.title + '" href="' + editButton.path.replace(/:id/, cl) + '"><span class="ui-icon ' + editButton.icon + '"></span></a>';
-        $(grid).jqGrid('setRowData',ids[i],{action_view:detailsLink});
-        $(grid).jqGrid('setRowData',ids[i],{action_edit:editLink});
+        for (var b in buttons) {
+            button = buttons[b]
+            link = '<a title="' + button.title + '" href="' + button.path.replace(/:id/, cl) + '"><span class="ui-icon ' + button.icon + '"></span></a>';
+            options = {};
+            options[button.column] = link;
+            $(grid).jqGrid('setRowData',ids[i],options);
+        }
     }
 }
 
@@ -78,5 +81,18 @@ function fixGridHeight(grid, maxHeight) {
         gridHeight += 1;
     }
     $('.ui-jqgrid-bdiv').height(gridHeight);
+}
+
+function gridErrorHandler(r, data) {
+  result = eval('(' + r.responseText + ')')
+  if (result) {
+    if (result.success) {
+        showSuccess(result.message);
+    }
+    else {
+        showError(result.message);
+    }
+  }
+  return [true, ''];
 }
 
