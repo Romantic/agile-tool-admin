@@ -49,10 +49,14 @@ function showError(message) {
 	]).appendTo('#ui-messages');
 }
 
-function addGridButton(grid, placeHolder, options) {
+function addGridButton(grid, placeHolder, buttons) {
     if (!window.isAddGridButtonExecuted) {
         isAddGridButtonExecuted = true;
-        $(grid).navButtonAdd(placeHolder, options);
+        for (var b in buttons) {
+            button = buttons[b]
+            button.onClickButton = eval("(" + button.onClickButton + ")")
+            $(grid).navButtonAdd(placeHolder, buttons[b]);
+        }
     }
 }
 

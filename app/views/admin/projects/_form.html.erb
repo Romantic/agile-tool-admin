@@ -27,7 +27,9 @@
     <div class="toolbar">
       <%= link_button t("actions.save"), "disk", js_void, :title => t(".save"), :onclick => submit_form %>
       <%= link_button t("actions.cancel"), "cancel", admin_projects_path, :title => t(".cancel") %>
-      <%= link_button t("actions.team"), "person", admin_project_users_path(:project_id => @project.id), :title => t(".team") %>
+      <% if @project.id %>
+        <%= link_button t("actions.team"), "person", admin_project_users_path(:project_id => @project.id), :title => t(".team") %>
+      <% end %>
     </div>
     <!-- Submits form on Enter key -->
     <%= f.submit "", {:class => "hide"} %>
