@@ -1,22 +1,29 @@
 # Provides helper methods for jquery ajax grid integration.
 module JqueryGridHelper
 
+  # Includes jquery grid javascripts.
+  def javascript_include_jqgrid
+    locale = I18n.locale rescue :en
+    js =  ''
+    js << javascript_include_tag("jqgrid/i18n/grid.locale-#{locale}.js") + "\n"
+    js << javascript_include_merged(:grid) + "\n"
+  end
+
   # Renders helper javascript method for grid with new, edit, view and delete buttons.
   def jquery_custom_grid(fields, options = {}, grid_name = controller_name)
 
     # Default options
-    options =
-      {
-        :edit_url            => url_for(:action => "grid_edit"),
-        :grid_loaded         => "gridLoadHandler",
-        :error_handler       => "gridErrorHandler",
-        :multi_selection     => true,
-        :rownumbers          => true,
-        :delete              => true,
-        :edit                => true,
-        :add                 => true,
-        :view                => true
-      }.merge(options)
+    options = {
+      :edit_url            => url_for(:action => "grid_edit"),
+      :grid_loaded         => "gridLoadHandler",
+      :error_handler       => "gridErrorHandler",
+      :multi_selection     => true,
+      :rownumbers          => true,
+      :delete              => true,
+      :edit                => true,
+      :add                 => true,
+      :view                => true,
+    }.merge(options)
 
     show_add = options.delete(:add)
     show_view = options.delete(:view)
@@ -50,24 +57,24 @@ module JqueryGridHelper
   end
 
   def add_row_buttons(grid_name, buttons)
-    output = "addGridRowButtons('##{grid_name}',["
-    buttons.each do |button|
-      output << "#{button.to_json},"
-    end
+    output = StringIO.new
+    output << "addGridRowButtons('##{grid_name}',["
+    output << (buttons.collect {|b| b.to_json}).join(",")
     output << "]);"
+    output.string
   end
 
   def add_grid_buttons(grid_name, buttons)
-    output = "addGridButton('##{grid_name}', '#pg_#{grid_name}_pager', ["
-    buttons.each do |button|
-      output << "#{button.to_json},"
-    end
+    output = StringIO.new
+    output << "addGridButton('##{grid_name}', '#pg_#{grid_name}_pager', ["
+    output << (buttons.collect {|b| b.to_json}).join(",")
     output << "]);"
+    output.string
   end
 
   def get_width(options, fields)
     width = options.delete(:width)
-    width = fields.inject (100) {|sum, field| sum + field[:width]} unless width
+    width = fields.inject(100) {|sum, field| sum + field[:width]} unless width
   end
 
   def get_row_buttons(show_view, show_edit)
@@ -94,15 +101,13 @@ module JqueryGridHelper
 
   def get_grid_buttons(show_add)
     buttons = []
-    if show_add
-      buttons << {
-        :buttonicon     => "ui-icon-plus",
-        :caption        => "",
-        :title          => t(".create_new"),
-        :onClickButton  => "function(){ window.location = '#{url_for :action => "new"}'}",
-        :position       => "first"
-      }
-    end
+    buttons << {
+      :buttonicon     => "ui-icon-plus",
+      :caption        => "",
+      :title          => t(".create_new"),
+      :onClickButton  => "function(){ window.location = '#{url_for :action => "new"}'}",
+      :position       => "first"
+    } if show_add
     buttons
   end
 end
