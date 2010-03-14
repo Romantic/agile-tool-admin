@@ -5,7 +5,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.profile "profile", :controller => "profile", :action => "edit"
 
     admin.resources :projects, :collection => { :grid_data => :get, :grid_edit => :post } do |project|
-      project.resources :users, :controller => "project_to_users", :except => [:new, :edit]
+      project.resources :users, :controller => "project_to_users", :only => [:index, :create],
+                        :collection => { :grid_data => :get, :grid_edit => :post, :set_role => :post }
     end
     admin.resources :users, :collection => { :grid_data => :get, :grid_edit => :post }
   end

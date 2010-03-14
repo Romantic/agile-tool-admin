@@ -25,6 +25,9 @@ en:
     user_updated: "Successfully updated user."
     user_deleted: "User has been deleted successfully."
     users_deleted: "Users has been deleted successfully."
+    some_errors: "You've got some errors."
+    role_assigned: "{{user}} became {{role}} for project {{project}}."
+    role_unassigned: "{{user}} is not {{role}} for project {{project}} now."
   crumbs:
     home: "home"
     new: "new"

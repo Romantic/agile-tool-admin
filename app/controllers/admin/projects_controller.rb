@@ -24,17 +24,8 @@ class Admin::ProjectsController < Admin::AdminController
   end
 
   def grid_edit
-    if params[:oper] == "del"
-      Project.find(params[:id].split(",")).each { |project| project.destroy }
-    else
-      project_params = {
-        :name => params[:name],
-        :start_date => params[:start_date],
-        :end_date => params[:end_date]
-      }
-
-      Project.find(params[:id]).update_attributes(project_params)
-    end
+    # TODO: throw exception if params[:oper] != "del"
+    Project.find(params[:id].split(",")).each { |project| project.destroy }
     render :json => {:success => true, :message => t("messages.projects_deleted")}.to_json
   end
 

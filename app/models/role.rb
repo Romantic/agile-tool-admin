@@ -21,19 +21,18 @@ class Role < ActiveRecord::Base
   DEVELOPER = "developer"
   SCRUM_MASTER = "scrum_master"
   SPECTATOR = "spectator"
-  
-  OBJECT_ROLES = [DEVELOPER, SCRUM_MASTER, SPECTATOR]
 
   has_many :roles_users, :dependent => :delete_all
   has_many :users, :through => :roles_users
   belongs_to :authorizable, :polymorphic => true
-  
+
   class << self
-  
+
     # Gets array of roles that can be assigned to project.
     def project_roles
       [DEVELOPER, SCRUM_MASTER, SPECTATOR]
     end
-  
+
   end
 end
+

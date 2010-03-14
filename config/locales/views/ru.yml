@@ -25,6 +25,9 @@ ru:
     user_updated: "Данные пользователь сохранены."
     user_deleted: "Пользователь удалён из системы."
     users_deleted: "Пользователи удалёны из системы."
+    some_errors: "Произошла ошибка."
+    role_assigned: "{{user}} назначен на роль {{role}} для проекта {{project}}."
+    role_unassigned: "{{user}} теперь не имеет роль {{role}} на проекте {{project}}."
   crumbs:
     home: "главная"
     new: "создать"

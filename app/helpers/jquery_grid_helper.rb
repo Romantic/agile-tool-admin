@@ -1,6 +1,8 @@
 # Provides helper methods for jquery ajax grid integration.
 module JqueryGridHelper
 
+  DEFAULT_GRID_WIDTH = 100
+
   # Includes jquery grid javascripts.
   def javascript_include_jqgrid
     locale = I18n.locale rescue :en
@@ -74,7 +76,7 @@ module JqueryGridHelper
 
   def get_width(options, fields)
     width = options.delete(:width)
-    width = fields.inject(100) {|sum, field| sum + field[:width]} unless width
+    width = fields.inject(DEFAULT_GRID_WIDTH) {|sum, field| sum + field[:width]} unless width
   end
 
   def get_row_buttons(show_view, show_edit)

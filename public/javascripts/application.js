@@ -49,6 +49,15 @@ function showError(message) {
 	]).appendTo('#ui-messages');
 }
 
+function showMessage(success, message) {
+    if (success) {
+        showSuccess(message);
+    }
+    else {
+        showError(message);
+    }
+}
+
 function addGridButton(grid, placeHolder, buttons) {
     if (!window.isAddGridButtonExecuted) {
         isAddGridButtonExecuted = true;
@@ -90,12 +99,8 @@ function fixGridHeight(grid, maxHeight) {
 function gridErrorHandler(r, data) {
   result = eval('(' + r.responseText + ')')
   if (result) {
-    if (result.success) {
-        showSuccess(result.message);
-    }
-    else {
-        showError(result.message);
-    }
+    clearMessages();
+    showMessage(result.success, result.message);
   }
   return [true, ''];
 }

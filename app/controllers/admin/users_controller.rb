@@ -24,17 +24,8 @@ class Admin::UsersController < Admin::AdminController
   end
 
   def grid_edit
-    if params[:oper] == "del"
-      User.find(params[:id].split(",")).each { |user| user.destroy }
-    else
-      user_params = {
-        :first_name => params[:first_name],
-        :last_name => params[:last_name],
-        :email => params[:email]
-      }
-
-      User.find(params[:id]).update_attributes(user_params)
-    end
+    # TODO: throw exception if params[:oper] != "del"
+    User.find(params[:id].split(",")).each { |user| user.destroy }
     render :json => {:success => true, :message => t("messages.users_deleted")}.to_json
   end
 
