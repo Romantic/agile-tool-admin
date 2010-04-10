@@ -29,21 +29,21 @@ javascripts:
   - jqgrid/src/grid.jqueryui
 stylesheets:
 - screen:
-  - screen
+  - blueprint/screen
   - jquery-ui-1.7.2.start
   - ui.jqgrid
-  - my-screen
-- admin_screen:
   - screen
+- admin_screen:
+  - blueprint/screen
   - jquery-ui-1.7.2.black-tie
   - ui.jqgrid
-  - my-screen
+  - screen
 - print:
+  - blueprint/print
   - print
-  - my-print
 - ie:
+  - blueprint/ie
   - ie
-  - my-ie
 - wysiwyg:
   - jHtmlArea
   - jHtmlArea.ColorPickerMenu
